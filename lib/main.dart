@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -54,6 +53,17 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: .8),
+              duration: Duration(seconds: 3),
+
+              builder: (context, value, child) {
+                print(value);
+                return LinearProgressIndicator(value: value,);
+              },
+            ),
+
+
           ],
         ),
       ),
