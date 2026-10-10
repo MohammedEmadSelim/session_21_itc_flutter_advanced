@@ -28,13 +28,29 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   int _counter = 0;
 
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    super.initState();
+  }
+
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    if(controller.isAnimating){
+      controller.stop();
+    }else{
+      controller.repeat(reverse: true);
+
+    }
   }
 
   @override
@@ -48,22 +64,20 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            // TweenAnimationBuilder(
+            //   tween: Tween<double>(begin: 0, end: .8),
+            //   duration: Duration(seconds: 3),
+            //
+            //   builder: (context, value, child) {
+            //     print(value);
+            //     return LinearProgressIndicator(value: value,);
+            //   },
+            // ),
+            FadeTransition(
+              opacity: controller,
+              child: Icon(Icons.settings, size: 100),
             ),
-            TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: .8),
-              duration: Duration(seconds: 3),
-
-              builder: (context, value, child) {
-                print(value);
-                return LinearProgressIndicator(value: value,);
-              },
-            ),
-
-
+            CircularProgressIndicator(value: 0.9,)
           ],
         ),
       ),
